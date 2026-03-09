@@ -39,18 +39,18 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
         // Step 1: Calculate the starting index of the slice that will be moved to the front by the amount 
-        // data.Count - amount
-        // Step 2: Get the start of the starting index that will be moved to the front
-        // Step 3: Remove the slice from the list
-        // Step 4: Insert the slice at the begining of the list
+        // data.Count - amount [create a variable to store the result]
+        // Step 2: Get the start of the starting index that will be moved to the front using [GetRange(index, count)]
+        // Step 3: Remove the slice from the list using [RemoveRange(index, amount)]
+        // Step 4: Insert the slice at the begining of the list using [InsertRange(index, slice)]
         // Step 1
-        int startingIndex = data.Count - amount;
+        int index = data.Count - amount;
 
         // Step 2
-        List<int> slice = data.GetRange(startingIndex, amount);
+        List<int> slice = data.GetRange(index, amount);
 
         // Step 3
-        data.RemoveRange(startingIndex, amount);
+        data.RemoveRange(index, amount);
 
         // Step 4
         data.InsertRange(0, slice);
