@@ -9,11 +9,20 @@ public static class Arrays
     public static double[] MultiplesOf(double number, int length)
     {
         // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Step 1: Create an array to store multiples of a number
+        double[] result = new double[length];
 
-        return []; // replace this return statement with your own
+        // Step 2: create a loop to fill each value of the array
+        // The loop will run from 0 to -1 length
+        for (int i = 0; i < length; i++) {
+  
+            // Step 3: Calculate the multiple of the number
+            // if i is 0, then we increment it by 1 (i + 1)
+            result[i] = number * (i + 1);
+        }
+        
+        // Step Return result
+        return result;
     }
 
     /// <summary>
@@ -29,5 +38,21 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+        // Step 1: Calculate the starting index of the slice that will be moved to the front by the amount 
+        // data.Count - amount
+        // Step 2: Get the start of the starting index that will be moved to the front
+        // Step 3: Remove the slice from the list
+        // Step 4: Insert the slice at the begining of the list
+        // Step 1
+        int startingIndex = data.Count - amount;
+
+        // Step 2
+        List<int> slice = data.GetRange(startingIndex, amount);
+
+        // Step 3
+        data.RemoveRange(startingIndex, amount);
+
+        // Step 4
+        data.InsertRange(0, slice);
     }
 }
