@@ -14,8 +14,12 @@ public static class Recursion
     /// </summary>
     public static int SumSquaresRecursive(int n)
     {
-        // TODO Start Problem 1
-        return 0;
+        // Base case:
+        if (n <= 0)
+            return 0;
+        // Recursive case:
+
+        return (n * n) + SumSquaresRecursive(n - 1);
     }
 
     /// <summary>
@@ -39,7 +43,26 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // TODO Start Problem 2
+        // Bas case: if the word is the correct size, add it to the results and return
+        if (word.Length == size)
+        {
+            results.Add(word);
+            return;
+        }
+
+        // Recursive case: try each letter
+        for (int i = 0; i < letters.Length; i++)
+        {
+            char c = letters[i];
+
+            // Remove the used letter
+            string remaining = letters.Remove(i, 1);
+
+            // Recurse with remaining letters
+            PermutationsChoose(results, remaining, size, word + c);
+
+        }
+
     }
 
     /// <summary>
@@ -96,10 +119,24 @@ public static class Recursion
         if (s == 3)
             return 4;
 
-        // TODO Start Problem 3
+        // Initialize dictionary if null
+        if (remember == null)
+        {
+            remember = new Dictionary<int, decimal>();
+        }
+
+        // Memoization: if we have already calculated the number of ways to climb s stairs, return that value
+        if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
 
         // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+        if (remember != null)
+        {
+            remember[s] = ways;
+        }
         return ways;
     }
 
@@ -118,7 +155,20 @@ public static class Recursion
     /// </summary>
     public static void WildcardBinary(string pattern, List<string> results)
     {
-        // TODO Start Problem 4
+        // Base case: if there are no wildcards, add the pattern to the results and return
+        if (!pattern.Contains('*'))
+        {
+            results.Add(pattern);
+            return;
+        }
+
+        // Find the first wildcard and replace it with both '0' and '1'
+        int index = pattern.IndexOf('*');
+        string before = pattern.Substring(0, index);
+        string after = pattern.Substring(index + 1);
+        WildcardBinary(before + "0" + after, results);
+        WildcardBinary(before + "1" + after, results);
+
     }
 
     /// <summary>
@@ -135,9 +185,29 @@ public static class Recursion
         
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
-        // TODO Start Problem 5
-        // ADD CODE HERE
+        // If move is not valid, return
+        if (!maze.IsValidMove(currPath, x, y))
+        {
+            return;
+        }
 
-        // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Add the current move to the path
+        currPath.Add((x, y));
+
+        // If we have reached the end, add the path to the results and return
+        if (maze.IsEnd(x, y))
+        {
+            results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        }
+        else 
+        {
+            // Recur for each possible move (up, down, left, right)
+            SolveMaze(results, maze, x + 1, y, currPath); // Move right
+            SolveMaze(results, maze, x - 1, y, currPath); // Move left
+            SolveMaze(results, maze, x, y + 1, currPath); // Move down
+            SolveMaze(results, maze, x, y - 1, currPath); // Move up
+        }
+        // Backtrack: remove the current move from the path before returning
+        currPath.RemoveAt(currPath.Count - 1);
     }
 }
